@@ -2,9 +2,9 @@
 <!--
 /**
  * MagentoTest_GreetingCard extension
- * 
+ *
  * Magento Module for testing applicants.
- * 
+ *
  * @category       MagentoTest
  * @package        MagentoTest_GreetingCard
  * @copyright      Copyright (c) Anders Innovations Ltd
@@ -14,7 +14,7 @@
     <modules>
         <MagentoTest_GreetingCard>
             <active>true</active>
-            <codePool>local</codePool>
+            <codePool>community</codePool>
             <depends>
                 <Mage_Core />
              </depends>
