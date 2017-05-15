@@ -1,9 +1,9 @@
 <?php
 /**
  * MagentoTest_GreetingCard extension
- * 
+ *
  * Magento Module for testing applicants.
- * 
+ *
  * @category       MagentoTest
  * @package        MagentoTest_GreetingCard
  * @copyright      Copyright (c) Company Inc.
@@ -38,38 +38,32 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
      * Collects customers based on order value
      */
     public function collectAction() {
-        $customerValue = array();
-        $orders = Mage::getModel("sales/order")->getCollection();
-        foreach($orders as $order) {
-            $order = $order->load($order->getId());
-            $customer = Mage::getModel("customer/customer")->setWebsiteId(1)->loadByEmail($order->getCustomerEmail());
-            $existsInArray = false;
-            foreach($customerValue as $customerEmail => $totalValue) {
-                if($customerEmail == $order->getCustomerEmail()) {
-                    $existsInArray = true;
-                }
-            }
-            if(!$existsInArray)
-                $customerValue[$order->getCustomerEmail()] = 0;
-            $customerValue[$customer->getEmail()] += $order->getGrandTotal();
-        }
 
         // clear old values from database
         $collection = Mage::getModel("magentotest_greetingcard/greetingcard")->getCollection();
         foreach($collection as $item) {
             $item->delete();
         }
+
+        $customerValue = array();
+        $orders = Mage::getResourceModel('sales/order_collection')
+            ->addFieldToFilter('base_grand_total', array('gteq'=>500));
+
+        foreach($orders as $order) {
+            $email = $order->getCustomerEmail();
+            $grant_total = $order->getGrandTotal();
+            $customerValue[$email] += $grant_total;
+        }
+
         // save to database based on values
         foreach($customerValue as $email => $totalValue) {
             $reason = null;
             if($totalValue > 2000)
                 $reason = 1;
-            if($totalValue > 1000)
+            elseif($totalValue > 1000)
                 $reason = 2;
-            if($totalValue > 500)
+            elseif($totalValue > 500)
                 $reason = 3;
-            if(!$reason)
-                continue;
             $item = Mage::getModel("magentotest_greetingcard/greetingcard");
             $item->setData("customer_email", $email);
             $item->setData("reason", $reason);
