@@ -44,13 +44,12 @@ class MagentoTest_GreetingCard_Block_Adminhtml_Greetingcard_Grid extends Mage_Ad
     {
         $collection = Mage::getModel('magentotest_greetingcard/greetingcard')
             ->getCollection();
-
-        $customers = Mage::getModel("customer/customer")->getCollection();
         $emails = array();
-        foreach($customers as $customer) {
-            $c = $customer->load($customer->getId());
-            $emails[] = $c->getEmail();
+        foreach($collection as $customer) {
+            $email = $customer->getCustomerEmail();
+            $emails[] = $email;
         }
+
         $collection->addFieldToFilter("customer_email", array("in" => $emails));
         $this->setCollection($collection);
         return parent::_prepareCollection();
