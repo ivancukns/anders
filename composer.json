@@ -1,0 +1,25 @@
+{
+    "name": "Your Project Name",
+    "require": {
+        "maverick/entity-generator": "*",
+        "fzaninotto/faker": "*",
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git://github.com/maverick193/entity-generator.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git://github.com/maverick193/Faker.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git://github.com/magento-hackathon/magento-composer-installer.git"
+        }
+    ],
+    "extra":{
+        "magento-root-dir": "/Applications/MAMP/htdocs/magento1924/"
+    }
+}

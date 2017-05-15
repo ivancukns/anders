@@ -1,0 +1,1 @@
+../vendor/maverick/entity-generator/shell/generator.php
