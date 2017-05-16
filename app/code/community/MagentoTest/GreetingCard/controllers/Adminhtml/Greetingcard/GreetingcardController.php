@@ -83,32 +83,34 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
      * Send action
      */
     public function sendAction() {
-        $collection = Mage::getModel("magentotest_greetingcard/greetingcard")->getCollection();
 
-        foreach($collection as $item) {
-            $selectedCustomerId = null;
-            $customers = Mage::getModel("customer/customer")->getCollection();
-            foreach($customers as $customer) {
-                if($customer->getEmail() == $item->getCustomerEmail()) {
-                    $selectedCustomerId = $customer->getId();
-                }
-            }
-            if($selectedCustomerId) {
-                $customer = Mage::getModel("customer/customer")->load($selectedCustomerId);
-            }
+        $greetingCardCollection = Mage::getModel("magentotest_greetingcard/greetingcard")->getCollection();
 
-            $item->delete();
-
-            $mail = Mage::getModel('core/email');
-            $mail->setToName($customer->getFirstname());
-            $mail->setToEmail($customer->getEmail());
-            $mail->setBody('Greetings from Example Store!\nThank you for being a great customer!');
-            $mail->setSubject('Thank you for being a great customer!');
-            $mail->setFromEmail('noreply@example.com');
-            $mail->setFromName("Example store");
-            $mail->setType('text');
-            $mail->send();
+        foreach($greetingCardCollection as $customer) {
+            $customersEmails[] = $customer->getCustomerEmail();
         }
+
+        $allCustomersCollection = Mage::getModel("customer/customer")
+            ->getCollection()->addAttributeToSelect('firstname')
+            ->addFieldToFilter('email', array('in'=>$customersEmails));
+
+        foreach($allCustomersCollection as $customer) {
+
+            $customerEmail[] = $customer->getEmail();
+            $customerFirstName[] = $customer->getFirstname();
+
+        }
+
+        $mail = Mage::getModel('core/email');
+        $mail->setToName($customerFirstName);
+        $mail->setToEmail('admin@magentotest.com');
+        $mail->addBcc($customerFirstName);
+        $mail->setBody('Greetings from Example Store!\nThank you for being a great customer!');
+        $mail->setSubject('Thank you for being a great customer!');
+        $mail->setFromEmail('noreply@example.com');
+        $mail->setFromName("Example store");
+        $mail->setType('text');
+        $mail->send();
         $this->_redirect("*/*/");
     }
 
