@@ -40,10 +40,9 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
     public function collectAction() {
 
         // clear old values from database
-        $collection = Mage::getModel("magentotest_greetingcard/greetingcard")->getCollection();
-        foreach($collection as $item) {
-            $item->delete();
-        }
+        $deleteGreetingTable = "DELETE FROM magentotest_greetingcard_greetingcard;";
+        $conn = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $conn->query($deleteGreetingTable);
 
         $customerValue = array();
         $orders = Mage::getResourceModel('sales/order_collection')
@@ -53,8 +52,10 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
             $email = $order->getCustomerEmail();
             $grant_total = $order->getGrandTotal();
             $customerValue[$email] += $grant_total;
+            $customersEmails[] = $email;
         }
 
+        $insertQuery = null;
         // save to database based on values
         foreach($customerValue as $email => $totalValue) {
             $reason = null;
@@ -64,10 +65,13 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
                 $reason = 2;
             elseif($totalValue > 500)
                 $reason = 3;
-            $item = Mage::getModel("magentotest_greetingcard/greetingcard");
-            $item->setData("customer_email", $email);
-            $item->setData("reason", $reason);
-            $item->save();
+
+            $insertQuery .= "INSERT INTO magentotest_greetingcard_greetingcard (customer_email, reason) VALUES ('".$email."',". $reason.");";
+
+        }
+
+        if (isset($insertQuery)) {
+            $conn->multi_query($insertQuery);
         }
 
         $this->_redirect("*/*/");
