@@ -55,7 +55,7 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
             $customersEmails[] = $email;
         }
 
-        $insertQuery = null;
+        $insertQuery = "INSERT INTO magentotest_greetingcard_greetingcard (customer_email, reason) VALUES ";
         // save to database based on values
         foreach($customerValue as $email => $totalValue) {
             $reason = null;
@@ -66,12 +66,14 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
             elseif($totalValue > 500)
                 $reason = 3;
 
-            $insertQuery .= "INSERT INTO magentotest_greetingcard_greetingcard (customer_email, reason) VALUES ('".$email."',". $reason.");";
+            $insertQuery .= "('".$email."',". $reason."), ";
 
         }
+        $insertQuery = rtrim($insertQuery, ', ');
+        $insertQuery = $insertQuery.";";
 
         if (isset($insertQuery)) {
-            $conn->multi_query($insertQuery);
+            $conn->query($insertQuery);
         }
 
         $this->_redirect("*/*/");
