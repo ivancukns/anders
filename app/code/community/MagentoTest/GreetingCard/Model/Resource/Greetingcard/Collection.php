@@ -1,9 +1,9 @@
 <?php
 /**
  * MagentoTest_GreetingCard extension
- * 
+ *
  * Magento Module for testing applicants.
- * 
+ *
  * @category       MagentoTest
  * @package        MagentoTest_GreetingCard
  * @copyright      Copyright (c) Company Inc.
@@ -15,7 +15,8 @@
  * @package     MagentoTest_GreetingCard
  * @author      Company Inc.
  */
-class MagentoTest_GreetingCard_Model_Resource_Greetingcard_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class MagentoTest_GreetingCard_Model_Resource_Greetingcard_Collection extends
+Mage_Core_Model_Resource_Db_Collection_Abstract
 {
     protected $_joinedFields = array();
 
@@ -94,7 +95,7 @@ class MagentoTest_GreetingCard_Model_Resource_Greetingcard_Collection extends Ma
      * @return array
      * @author Company Inc.
      */
-    protected function _toOptionArray($valueField='entity_id', $labelField='customer_email', $additional=array())
+    protected function _toOptionArray($valueField = 'entity_id', $labelField = 'customer_email', $additional = array())
     {
         return parent::_toOptionArray($valueField, $labelField, $additional);
     }
@@ -108,7 +109,7 @@ class MagentoTest_GreetingCard_Model_Resource_Greetingcard_Collection extends Ma
      * @return array
      * @author Company Inc.
      */
-    protected function _toOptionHash($valueField='entity_id', $labelField='customer_email')
+    protected function _toOptionHash($valueField = 'entity_id', $labelField = 'customer_email')
     {
         return parent::_toOptionHash($valueField, $labelField);
     }

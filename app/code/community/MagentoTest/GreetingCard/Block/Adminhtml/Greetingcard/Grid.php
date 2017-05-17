@@ -1,9 +1,9 @@
 <?php
 /**
  * MagentoTest_GreetingCard extension
- * 
+ *
  * Magento Module for testing applicants.
- * 
+ *
  * @category       MagentoTest
  * @package        MagentoTest_GreetingCard
  * @copyright      Copyright (c) Company Inc.
@@ -44,13 +44,6 @@ class MagentoTest_GreetingCard_Block_Adminhtml_Greetingcard_Grid extends Mage_Ad
     {
         $collection = Mage::getModel('magentotest_greetingcard/greetingcard')
             ->getCollection();
-        $emails = array();
-        foreach($collection as $customer) {
-            $email = $customer->getCustomerEmail();
-            $emails[] = $email;
-        }
-
-        $collection->addFieldToFilter("customer_email", array("in" => $emails));
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -81,7 +74,8 @@ class MagentoTest_GreetingCard_Block_Adminhtml_Greetingcard_Grid extends Mage_Ad
                 'index'  => 'reason',
                 'type'  => 'options',
                 'options' => Mage::helper('magentotest_greetingcard')->convertOptions(
-                    Mage::getModel('magentotest_greetingcard/greetingcard_attribute_source_reason')->getAllOptions(false)
+                    Mage::getModel('magentotest_greetingcard/greetingcard_attribute_source_reason')
+                    ->getAllOptions(false)
                 )
 
             )

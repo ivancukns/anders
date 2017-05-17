@@ -1,9 +1,9 @@
 <?php
 /**
  * MagentoTest_GreetingCard extension
- * 
+ *
  * Magento Module for testing applicants.
- * 
+ *
  * @category       MagentoTest
  * @package        MagentoTest_GreetingCard
  * @copyright      Copyright (c) Company Inc.
@@ -55,7 +55,8 @@ class MagentoTest_GreetingCard_Block_Adminhtml_Greetingcard_Edit_Tab_Form extend
                 'required'  => true,
                 'class' => 'required-entry',
 
-                'values'=> Mage::getModel('magentotest_greetingcard/greetingcard_attribute_source_reason')->getAllOptions(true),
+                'values'=> Mage::getModel('magentotest_greetingcard/greetingcard_attribute_source_reason')
+                ->getAllOptions(true),
            )
         );
         $fieldset->addField(

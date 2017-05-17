@@ -1,9 +1,9 @@
 <?php
 /**
  * MagentoTest_GreetingCard extension
- * 
+ *
  * Magento Module for testing applicants.
- * 
+ *
  * @category       MagentoTest
  * @package        MagentoTest_GreetingCard
  * @copyright      Copyright (c) Anders Innovations Ltd
@@ -77,7 +77,8 @@ class MagentoTest_GreetingCard_Model_Resource_Greetingcard extends Mage_Core_Mod
         if ($object->getStoreId()) {
             $storeIds = array(Mage_Core_Model_App::ADMIN_STORE_ID, (int)$object->getStoreId());
             $select->join(
-                array('greetingcard_greetingcard_store' => $this->getTable('magentotest_greetingcard/greetingcard_store')),
+                array('greetingcard_greetingcard_store' => $this
+                    ->getTable('magentotest_greetingcard/greetingcard_store')),
                 $this->getMainTable() . '.entity_id = greetingcard_greetingcard_store.greetingcard_id',
                 array()
             )

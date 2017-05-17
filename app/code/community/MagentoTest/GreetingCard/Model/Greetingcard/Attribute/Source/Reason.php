@@ -1,9 +1,9 @@
 <?php
 /**
  * MagentoTest_GreetingCard extension
- * 
+ *
  * Magento Module for testing applicants.
- * 
+ *
  * @category       MagentoTest
  * @package        MagentoTest_GreetingCard
  * @copyright      Copyright (c) Company Inc.
@@ -15,7 +15,8 @@
  * @package     MagentoTest_GreetingCard
  * @author      Company Inc.
  */
-class MagentoTest_GreetingCard_Model_Greetingcard_Attribute_Source_Reason extends Mage_Eav_Model_Entity_Attribute_Source_Table
+class MagentoTest_GreetingCard_Model_Greetingcard_Attribute_Source_Reason extends
+Mage_Eav_Model_Entity_Attribute_Source_Table
 {
     /**
      * get possible values
@@ -46,7 +47,6 @@ class MagentoTest_GreetingCard_Model_Greetingcard_Attribute_Source_Reason extend
             array_unshift($options, array('label'=>'', 'value'=>''));
         }
         return $options;
-
     }
 
     /**

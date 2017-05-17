@@ -55,16 +55,22 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
             $customersEmails[] = $email;
         }
 
+        if (!isset($customersEmails)) {
+            $this->_redirect("*/*/");
+            return $this;
+        }
+
         $insertQuery = "INSERT INTO magentotest_greetingcard_greetingcard (customer_email, reason) VALUES ";
         // save to database based on values
         foreach($customerValue as $email => $totalValue) {
             $reason = null;
-            if($totalValue > 2000)
+            if($totalValue > 2000) {
                 $reason = 1;
-            elseif($totalValue > 1000)
+            } elseif($totalValue > 1000) {
                 $reason = 2;
-            elseif($totalValue > 500)
+            }  elseif($totalValue > 500) {
                 $reason = 3;
+            }
 
             $insertQuery .= "('".$email."',". $reason."), ";
 
@@ -90,28 +96,32 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
             $customersEmails[] = $customer->getCustomerEmail();
         }
 
+        if (!isset($customersEmails)) {
+            $this->_redirect("*/*/");
+            return $this;
+        }
+
         $allCustomersCollection = Mage::getModel("customer/customer")
             ->getCollection()->addAttributeToSelect('firstname')
             ->addFieldToFilter('email', array('in'=>$customersEmails));
 
         foreach($allCustomersCollection as $customer) {
 
-            $customerEmail[] = $customer->getEmail();
-            $customerFirstName[] = $customer->getFirstname();
+            $customerEmail = $customer->getEmail();
+            $customerFirstName = $customer->getFirstname();
+
+            $mail = Mage::getModel('core/email');
+            $mail->setToName($customerFirstName);
+            $mail->setToEmail($customerEmail);
+            $mail->setBody('Greetings from Example Store!\nThank you for being a great customer!');
+            $mail->setSubject('Thank you for being a great customer!');
+            $mail->setFromEmail('noreply@example.com');
+            $mail->setFromName("Example store");
+            $mail->setType('text');
+            $mail->send();
+            $this->_redirect("*/*/");
 
         }
-
-        $mail = Mage::getModel('core/email');
-        $mail->setToName($customerFirstName);
-        $mail->setToEmail('admin@magentotest.com');
-        $mail->addBcc($customerFirstName);
-        $mail->setBody('Greetings from Example Store!\nThank you for being a great customer!');
-        $mail->setSubject('Thank you for being a great customer!');
-        $mail->setFromEmail('noreply@example.com');
-        $mail->setFromName("Example store");
-        $mail->setType('text');
-        $mail->send();
-        $this->_redirect("*/*/");
     }
 
     /**
@@ -125,7 +135,7 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
     {
         $this->loadLayout();
         $this->_title(Mage::helper("magentotest_greetingcard")->__("Greeting Cards"))
-             ->_title(Mage::helper("magentotest_greetingcard")->__("Greeting Cards"));
+            ->_title(Mage::helper("magentotest_greetingcard")->__("Greeting Cards"));
         $this->renderLayout();
     }
 
@@ -166,7 +176,7 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
         Mage::register("greetingcard_data", $greetingcard);
         $this->loadLayout();
         $this->_title(Mage::helper("magentotest_greetingcard")->__("Greeting Cards"))
-             ->_title(Mage::helper("magentotest_greetingcard")->__("Greeting Cards"));
+            ->_title(Mage::helper("magentotest_greetingcard")->__("Greeting Cards"));
         if ($greetingcard->getId()) {
             $this->_title($greetingcard->getCustomerEmail());
         } else {
@@ -323,10 +333,10 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
         } else {
             try {
                 foreach ($greetingcardIds as $greetingcardId) {
-                $greetingcard = Mage::getSingleton("magentotest_greetingcard/greetingcard")->load($greetingcardId)
-                            ->setStatus($this->getRequest()->getParam("status"))
-                            ->setIsMassupdate(true)
-                            ->save();
+                    $greetingcard = Mage::getSingleton("magentotest_greetingcard/greetingcard")->load($greetingcardId)
+                        ->setStatus($this->getRequest()->getParam("status"))
+                        ->setIsMassupdate(true)
+                        ->save();
                 }
                 $this->_getSession()->addSuccess(
                     $this->__("Total of %d greeting cards were successfully updated.", count($greetingcardIds))
@@ -360,10 +370,10 @@ class MagentoTest_GreetingCard_Adminhtml_Greetingcard_GreetingcardController ext
         } else {
             try {
                 foreach ($greetingcardIds as $greetingcardId) {
-                $greetingcard = Mage::getSingleton("magentotest_greetingcard/greetingcard")->load($greetingcardId)
-                    ->setReason($this->getRequest()->getParam("flag_reason"))
-                    ->setIsMassupdate(true)
-                    ->save();
+                    $greetingcard = Mage::getSingleton("magentotest_greetingcard/greetingcard")->load($greetingcardId)
+                        ->setReason($this->getRequest()->getParam("flag_reason"))
+                        ->setIsMassupdate(true)
+                        ->save();
                 }
                 $this->_getSession()->addSuccess(
                     $this->__("Total of %d greeting cards were successfully updated.", count($greetingcardIds))

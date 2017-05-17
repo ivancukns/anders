@@ -1,9 +1,9 @@
 <?php
 /**
  * MagentoTest_GreetingCard extension
- * 
+ *
  * Magento Module for testing applicants.
- * 
+ *
  * @category       MagentoTest
  * @package        MagentoTest_GreetingCard
  * @copyright      Copyright (c) Company Inc.
@@ -96,5 +96,4 @@ class MagentoTest_GreetingCard_Model_Greetingcard extends Mage_Core_Model_Abstra
 
         return $values;
     }
-    
 }
